@@ -44,7 +44,9 @@ module.exports = function (ctx) {
       components: [
         'QInput',
         'QField',
+        'QAlert',
         'QLayout',
+        'QCheckbox',
         'QLayoutHeader',
         'QLayoutDrawer',
         'QPageContainer',
@@ -64,7 +66,8 @@ module.exports = function (ctx) {
       ],
       // Quasar plugins
       plugins: [
-        'Notify'
+        'Notify',
+        'Loading'
       ]
       // iconSet: ctx.theme.mat ? 'material-icons' : 'ionicons'
       // i18n: 'de' // Quasar language

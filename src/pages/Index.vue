@@ -1,14 +1,18 @@
 <template>
+<q-page-container>
   <q-page class="flex flex-center">
 <div class="form2">
     <img class="img" alt="Quasar logo" src="~assets/nova_logo_ProsperidadeInvestimentos.png">
-    <q-input v-model="model" float-label="Email" />
-    <q-input v-model="text" type="password" float-label="Password" />
+    <q-input v-model="login.email" float-label="Email" />
+    <q-input v-model="login.password" type="password" float-label="Password" />
+    <q-checkbox v-model="check2" color="secondary" label="Lembre-me" />
     <div class="actions2">
-    <q-btn class="q-btn" color="primary" label="Entrar"/>
+    <q-btn class="q-btn" color="primary" @click="auth" label="Entrar"/>
+    <div class="input_white">{{menssage}}</div>
     </div>
 </div>
   </q-page>
+  </q-page-container>
 </template>
 
 <style>
@@ -42,10 +46,82 @@
       width: 100%;
       margin-top: 10%
   }
+  .input_white{
+    color:black;
+  }
 </style>
 
 <script>
+import axios from 'axios'
 export default {
-  name: 'PageIndex'
+  name: 'Login',
+  data () {
+    return {
+      check2: true,
+      login: {
+        email: '',
+        password: ''
+      },
+      results: null,
+      inicio: null,
+      menssage: null,
+      people: []
+    }
+  },
+  methods: {
+    auth () {
+      this.menssage = null
+      this.results = null
+      if (this.login.email !== '' && this.login.password !== '') {
+        // this.loading = true
+        axios
+          .post('http://165.227.188.44:5555/login', this.login)
+          .then(response => {
+            if (response.data.user === false) {
+              this.$router.push('/')
+              if (response.data.message === 'Username not found') {
+                this.menssage = 'Usuário não encontrado!'
+              } else {
+                this.menssage = 'A senha incorreta!'
+              }
+            } else {
+              // this.results = response.data.message
+              window.localStorage.setItem('Usuario', JSON.stringify(response.data.user))
+
+              if (response.data.user.id_profile === 1) {
+                this.$router.push('/Home')
+                this.loading = false
+              } else if (response.data.user.id_profile === 3) {
+                this.$router.push('/agendamento')
+                this.loading = false
+              } else {
+                this.$router.push('/visita')
+                this.loading = false
+              }
+            }
+          })
+          .catch(error => {
+            if (error.response.data.code === 'E_UNIQUE') {
+              this.results = 'Usuario não encontrado. Por favor verirficar os dados digitados'
+            }
+            this.results = 'Usuario não encontrado. Por favor verirficar os dados digitados'
+            this.loading = false
+          })
+      } else {
+        this.$router.push('/')
+        if (this.login.email === '') {
+          this.menssage = 'Por favor incluir e-mail'
+        } else if (this.login.password === '') {
+          this.menssage = 'Por favor incluir a senha'
+        }
+        setInterval(() => {
+          this.menssage = ''
+          this.inicio = ''
+          this.results = ''
+        }, 8000)
+      }
+    }
+
+  }
 }
 </script>
