@@ -89,13 +89,11 @@ export default {
               window.localStorage.setItem('Usuario', JSON.stringify(response.data.user))
 
               if (response.data.user.id_profile === 1) {
-                this.$router.push('/Home')
-                this.loading = false
+                this.menssage = 'Você não é um Agente'
               } else if (response.data.user.id_profile === 3) {
-                this.$router.push('/agendamento')
-                this.loading = false
+                this.menssage = 'Você não é um Agente'
               } else {
-                this.$router.push('/visita')
+                this.$router.push('/Home')
                 this.loading = false
               }
             }
