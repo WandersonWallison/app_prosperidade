@@ -39,6 +39,15 @@
         </q-item>
       </q-list>
     </q-layout-drawer>
+     <q-tabs class="tabs" animated swipeable inverted color="faded" align="justify">
+        <q-tab default name="mails" slot="title" icon="mail"/>
+        <q-tab name="alarms" slot="title" icon="alarm"  />
+        <q-tab name="movies" slot="title" icon="movie"  />
+
+        <q-tab-pane name="mails">Emails tab</q-tab-pane>
+        <q-tab-pane name="alarms">Alarms tab</q-tab-pane>
+        <q-tab-pane name="movies">Movies tab</q-tab-pane>
+      </q-tabs>
 
     <q-page-container>
       <router-view />
@@ -48,7 +57,6 @@
 
 <script>
 import { openURL } from 'quasar'
-
 export default {
   name: 'MyLayout',
   data () {
@@ -63,4 +71,7 @@ export default {
 </script>
 
 <style>
+.tabs{
+  margin-top: 45px;
+}
 </style>
