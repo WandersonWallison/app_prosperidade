@@ -27,7 +27,7 @@
      <q-input v-model="lead.bairro" stack-label="Bairro" />
     </div>
      <div class="actions2">
-        <q-btn class="q-btn" color="primary" label="Agendar"/>
+        <q-btn class="q-btn" color="primary" @click="saveAgenda" label="Agendar"/>
      </div>
    </div>
 </q-page>
@@ -35,6 +35,7 @@
 
 <script>
 import axios from 'axios'
+// import moment from 'moment'
 export default {
   name: 'AgendarVisita',
   data () {
@@ -53,6 +54,7 @@ export default {
         cidade: '',
         bairro: ''
       },
+      userAtual: null,
       selectOptions: [
         {
           label: 'Acre',
@@ -167,9 +169,34 @@ export default {
     }
   },
   mounted () {
-    axios.get('http://165.227.188.44:5555/schedule').then(response => {
-      this.tableData = response.data
-    })
+    const authUser = window.localStorage.getItem('Usuario')
+    const authUser2 = JSON.parse(authUser)
+    this.userAtual = authUser2.id
+  },
+  methods: {
+    saveAgenda () {
+      let newLead = {
+        nome: this.lead.nome,
+        email: this.lead.email,
+        telefone: this.lead.telefone,
+        celular: this.lead.celular,
+        // data_criacao: moment(Date.now()).format(),
+        id_user_criador: this.userAtual
+      }
+      axios.post('http://165.227.188.44:5555/' + 'leads', newLead)
+        .then(response => {
+          this.userSaved = true
+          this.sending = false
+          alert('Contato cadastado com sucesso')
+          this.clearForm()
+        })
+        .catch(error => {
+          if (error.response.data.code === 'E_UNIQUE') {
+            alert('Contato já cadastrado, \nPor favor verificar as informações')
+          }
+          console.log(error.response.data)
+        })
+    }
   }
 }
 </script>
