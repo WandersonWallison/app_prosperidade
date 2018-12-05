@@ -1,53 +1,48 @@
 <template>
-   <q-table
-    :data="tableData"
-    :columns="columns"
-    :selection="selection"
-    :selected.sync="selected"
-    :loading="loading"
-    row-key="name"
-    color="secondary"
-  >
-    <q-tr slot="top-row" slot-scope="props">
+  <q-table
+  :data="tableData"
+  :columns="columns"
+  selection="multiple"
+  :selected.sync="selected"
+  row-key="name"
+>
+  <q-tr slot="header" slot-scope="props">
+    <q-th auto-width>
+      <q-checkbox
+        v-if="props.multipleSelect"
+        v-model="props.selected"
+        indeterminate-value="some"
+      />
+    </q-th>
+    <q-th v-for="col in props.cols" :key="col.name" :props="props">
+      {{ col.label }}
+    </q-th>
+  </q-tr>
+
+  <template slot="body" slot-scope="props">
+    <q-tr :props="props">
+      <q-td auto-width>
+        <q-checkbox color="primary" v-model="props.selected" />
+      </q-td>
+      <q-td key="desc" :props="props">
+        <q-checkbox color="primary" v-model="props.expand" checked-icon="remove" unchecked-icon="add" class="q-mr-md" />
+        {{ props.row.name }}
+      </q-td>
+      <q-td key="id" :props="props">{{ props.row.id }}</q-td>
+      <q-td key="data" :props="props">{{ props.row.data }}</q-td>
+      <q-td key="hora" :props="props">{{ props.row.hora }}</q-td>
+      <q-td key="tempo_ligacao" :props="props">{{ props.row.tempo_ligacao }}</q-td>
+      <q-td key="sodium" :props="props">{{ props.row.sodium }}</q-td>
+      <q-td key="calcium" :props="props">{{ props.row.calcium }}</q-td>
+      <q-td key="obs" :props="props">{{ props.row.obs }}</q-td>
+    </q-tr>
+    <q-tr v-show="props.expand" :props="props">
       <q-td colspan="100%">
-        <strong>Extra top row</strong>
+        <div class="text-left">This is expand slot for row above: {{ props.row.id }}.</div>
       </q-td>
     </q-tr>
-
-    <q-tr slot="bottom-row" slot-scope="props">
-      <q-td colspan="100%">
-        <strong>Extra bottom row</strong>
-      </q-td>
-    </q-tr>
-
-    <template slot="top-left" slot-scope="props">
-      <q-select
-        v-model="selection"
-        stack-label="Selection"
-        hide-underline
-        :options="[
-          { label: 'Single', value: 'single' },
-          { label: 'Multiple', value: 'multiple' },
-          { label: 'None', value: 'none' }
-        ]"
-        color="secondary"
-        style="min-width: 100px"
-      />
-    </template>
-    <div slot="top-right" slot-scope="props" class="column">
-      <q-toggle
-        v-model="loading"
-        label="Loading state"
-        color="secondary"
-        class="q-mb-sm"
-      />
-      <q-toggle
-        v-model="dark"
-        label="On dark background"
-        color="secondary"
-      />
-    </div>
-  </q-table>
+  </template>
+</q-table>
 </template>
 
 <script>

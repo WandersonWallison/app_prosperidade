@@ -4,8 +4,8 @@
         <q-tab name="alarms" slot="title" icon="alarm"  />
         <q-tab name="movies" slot="title" icon="movie"  />
         <q-tab-pane name="agenda"><q-agendamento/></q-tab-pane>
-        <q-tab-pane name="alarms"><q-visita/></q-tab-pane>
-        <q-tab-pane name="movies"><q-agendar-visita/></q-tab-pane>
+        <q-tab-pane name="alarms"><q-agendar-visita/></q-tab-pane>
+        <q-tab-pane name="movies"><q-visita/></q-tab-pane>
       </q-tabs>
 </template>
 

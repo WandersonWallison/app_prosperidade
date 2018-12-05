@@ -1,81 +1,171 @@
 <template>
-  <q-table
-  :data="tableData"
-  :columns="columns"
-  selection="multiple"
-  :selected.sync="selected"
-  row-key="name"
->
-  <q-tr slot="header" slot-scope="props">
-    <q-th auto-width>
-      <q-checkbox
-        v-if="props.multipleSelect"
-        v-model="props.selected"
-        indeterminate-value="some"
-      />
-    </q-th>
-    <q-th v-for="col in props.cols" :key="col.name" :props="props">
-      {{ col.label }}
-    </q-th>
-  </q-tr>
-
-  <template slot="body" slot-scope="props">
-    <q-tr :props="props">
-      <q-td auto-width>
-        <q-checkbox color="primary" v-model="props.selected" />
-      </q-td>
-      <q-td key="desc" :props="props">
-        <q-checkbox color="primary" v-model="props.expand" checked-icon="remove" unchecked-icon="add" class="q-mr-md" />
-        {{ props.row.name }}
-      </q-td>
-      <q-td key="id" :props="props">{{ props.row.id }}</q-td>
-      <q-td key="data" :props="props">{{ props.row.data }}</q-td>
-      <q-td key="hora" :props="props">{{ props.row.hora }}</q-td>
-      <q-td key="tempo_ligacao" :props="props">{{ props.row.tempo_ligacao }}</q-td>
-      <q-td key="sodium" :props="props">{{ props.row.sodium }}</q-td>
-      <q-td key="calcium" :props="props">{{ props.row.calcium }}</q-td>
-      <q-td key="obs" :props="props">{{ props.row.obs }}</q-td>
-    </q-tr>
-    <q-tr v-show="props.expand" :props="props">
-      <q-td colspan="100%">
-        <div class="text-left">This is expand slot for row above: {{ props.row.id }}.</div>
-      </q-td>
-    </q-tr>
-  </template>
-</q-table>
+<q-page padding class="docs-input row justify-center">
+   <div style="width: 500px; max-width: 90vw;">
+     Agendar Visita
+     <q-input v-model="lead.nome" stack-label="Nome" />
+     <q-input v-model="lead.email" type="email" stack-label="Email" suffix="@gmail.com" />
+     <div class="divLateral">
+       <q-input v-model="lead.telefone" class="campo1" type="number" stack-label="Telefone" />
+       <q-input v-model="lead.celular" type="number"  stack-label="Celular" />
+     </div>
+     <div>
+     <q-datetime class="campo1" v-model="lead.data" type="date" stack-label="Date" />
+     <q-datetime v-model="lead.hora" type="time" stack-label="Hora"/>
+     </div>
+     <q-input v-model="lead.rua" stack-label="Rua" />
+     <q-input v-model="lead.numero" type="number" stack-label="Número" />
+     <div>
+     <q-input class="campo1" v-model="lead.cep" stack-label="Cep" />
+     <q-select
+      stack-label="Estado"
+      v-model="lead.estado"
+      :options="selectOptions"
+    />
+     </div>
+    <div>
+     <q-input class="campo1" v-model="lead.cidade" stack-label="Cidade" />
+     <q-input v-model="lead.bairro" stack-label="Bairro" />
+    </div>
+     <div class="actions2">
+        <q-btn class="q-btn" color="primary" label="Agendar"/>
+     </div>
+   </div>
+</q-page>
 </template>
 
 <script>
 import axios from 'axios'
 export default {
   name: 'AgendarVisita',
-  data: () => ({
-    tableData: [],
-    columns: [{
-      name: 'desc',
-      required: true,
-      label: 'Dessert (100g serving)',
-      align: 'left',
-      field: 'name',
-      sortable: true
-    },
-    { name: 'id', label: 'Id', field: 'id', sortable: true },
-    { name: 'data', label: 'Data', field: 'data', sortable: true },
-    { name: 'hora', label: 'Hora', field: 'hora' },
-    { name: 'tempo_ligacao', label: 'Tempo Ligação', field: 'tempo_logacao' },
-    { name: 'sodium', label: 'Sodium (mg)', field: '' },
-    { name: 'calcium', label: 'Calcium', field: 'calcium', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
-    { name: 'obs', label: 'Obs', field: 'obs', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) }
-    ],
-    loading: false,
-    dark: true,
-    selection: 'multiple',
-    selected: [
-      // initial selection; notice we specify the
-      // row-key prop of the selected row
-      // { name: 'Ice cream sandwich' }
-    ]
-  }),
+  data () {
+    return {
+      lead: {
+        nome: '',
+        email: '',
+        telefone: '',
+        celular: '',
+        data: '',
+        hora: '',
+        rua: '',
+        numero: '',
+        cep: '',
+        estado: '',
+        cidade: '',
+        bairro: ''
+      },
+      selectOptions: [
+        {
+          label: 'Acre',
+          value: 'ac'
+        },
+        {
+          label: 'Alagoas',
+          value: 'al'
+        },
+        {
+          label: 'Amazonas',
+          value: 'am'
+        },
+        {
+          label: 'Amapá',
+          value: 'ap'
+        },
+        {
+          label: 'Bahia',
+          value: 'ba'
+        },
+        {
+          label: 'Ceará',
+          value: 'ce'
+        },
+        {
+          label: 'Distrito Federal',
+          value: 'df'
+        },
+        {
+          label: 'Espírito Santo',
+          value: 'es'
+        },
+        {
+          label: 'Goiás',
+          value: 'go'
+        },
+        {
+          label: 'Maranhão',
+          value: 'ma'
+        },
+        {
+          label: 'Mato Grosso',
+          value: 'mt'
+        },
+        {
+          label: 'Mato Grosso do Sul',
+          value: 'ms'
+        },
+        {
+          label: 'Minas Gerais',
+          value: 'mg'
+        },
+        {
+          label: 'Pará',
+          value: 'pa'
+        },
+        {
+          label: 'Paraíba',
+          value: 'pb'
+        },
+        {
+          label: 'Paraná',
+          value: 'pr'
+        },
+        {
+          label: 'Pernambuco',
+          value: 'pe'
+        },
+        {
+          label: 'Piauí',
+          value: 'pi'
+        },
+        {
+          label: 'Rio de Janeiro',
+          value: 'rj'
+        },
+        {
+          label: 'Rio Grande do Norte',
+          value: 'rn'
+        },
+        {
+          label: 'Rondônia',
+          value: 'ro'
+        },
+        {
+          label: 'Rio Grande do Sul',
+          value: 'rs'
+        },
+        {
+          label: 'Roraima',
+          value: 'rr'
+        },
+        {
+          label: 'Santa Catarina',
+          value: 'sc'
+        },
+        {
+          label: 'Sergipe',
+          value: 'se'
+        },
+        {
+          label: 'São Paulo',
+          value: 'sp'
+        },
+        {
+          label: 'Tocantins',
+          value: 'to'
+        }
+      ],
+      results: null
+    }
+  },
   mounted () {
     axios.get('http://165.227.188.44:5555/schedule').then(response => {
       this.tableData = response.data
@@ -85,4 +175,21 @@ export default {
 </script>
 
 <style>
+.divLateral{
+  display: relative;
+  }
+  .q-btn{
+      width: 100%;
+      height: 5px;
+  }
+  .campo1 {
+   float:left;
+  }
+  .actions2 {
+      margin: 0;
+      margin-left: auto;
+      margin-right: auto;
+      width: 100%;
+      margin-top: 10%
+  }
 </style>
