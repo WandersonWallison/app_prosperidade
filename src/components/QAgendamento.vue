@@ -2,16 +2,15 @@
 <q-table
   :data="tableData"
   :columns="columns"
-  selection="multiple"
+  selection="single"
   :selected.sync="selected"
-  row-key="name"
-  title="Select some rows"
+  title="Selecione um agendamento"
 >
 <template slot="top-selection" slot-scope="props">
-    <q-btn color="secondary" flat label="Sim" class="q-mr-sm" />
-    <q-btn color="secondary" flat label="Não" />
-    <div class="col" />
-    <q-btn color="negative" flat round delete icon="delete"/>
+  <q-btn-group push>
+  <q-btn label="Sim" @click="aceito" color="primary"/>
+  <q-btn label="Não" @click="notAceito" color="negative"/>
+</q-btn-group>
   </template>
   <q-tr slot="header" slot-scope="props">
     <q-th auto-width>
@@ -46,7 +45,7 @@
     </q-tr>
     <q-tr v-show="props.expand" :props="props">
       <q-td colspan="100%">
-        <div class="text-left">This is expand slot for row above: {{ props.row.id }}.</div>
+        <div class="text-left">Detalhes: {{ props.row.id }}.</div>
       </q-td>
     </q-tr>
   </template>
@@ -59,10 +58,13 @@ export default {
   name: 'Agendamento',
   data: () => ({
     tableData: [],
+    results: [],
+    id_usuario: null,
+    id_lead: null,
     columns: [{
       name: 'desc',
       required: true,
-      label: 'Dessert (100g serving)',
+      label: 'Itens',
       align: 'left',
       field: 'name',
       sortable: true
@@ -89,11 +91,56 @@ export default {
     }
   },
   mounted () {
-    axios.get('http://165.227.188.44:5555/schedule').then(response => {
-      this.tableData = response.data
-    })
+    const userLogado = window.localStorage.getItem('Usuario')
+    const user = JSON.parse(userLogado)
+    this.id_usuario = user.id
+    axios.get('http://165.227.188.44:5555/schedule?where={"agentes":' + this.id_usuario + ',"status":0}')
+      .then(response => {
+        this.tableData = response.data
+      })
   },
   methods: {
+    aceito () {
+      let newAgenda = {
+        status: 1
+      }
+      axios.put('http://165.227.188.44:5555/schedule/' + this.selected[0].id, newAgenda)
+        .then((response) => {
+          this.results = response.data
+          alert('confirmou agendamento!')
+          this.updateLead(4)
+        })
+        .catch((error) => {
+          alert(error.response.data.code)
+        })
+    },
+    // momento de aceitação pelo agente se retorna ou não p lista de aceitação
+    updateLead (id) {
+      let newLead = {
+        momento_atual: id
+      }
+      axios.put('http://165.227.188.44:5555/leads/' + this.results.id_lead.id, newLead)
+        .then((response) => {
+          window.location.reload()
+        })
+        .catch((error) => {
+          console.log(error.response.data)
+        })
+    },
+    notAceito () {
+      let newAgenda = {
+        status: 2
+      }
+      axios.put('http://165.227.188.44:5555/schedule/' + this.selected[0].id, newAgenda)
+        .then((response) => {
+          this.results = response.data
+          alert('Não confirmou agendamento!')
+          this.updateLead(5)
+        })
+        .catch((error) => {
+          alert(error.response.data.code)
+        })
+    },
     rowClick (row) {
       this.$q.notify({
         color: 'primary',
@@ -112,4 +159,7 @@ export default {
 </script>
 
 <style>
+.div{
+  width: 100%;
+}
 </style>

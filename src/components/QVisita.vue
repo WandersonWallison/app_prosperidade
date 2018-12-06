@@ -4,7 +4,6 @@
   :columns="columns"
   selection="multiple"
   :selected.sync="selected"
-  row-key="name"
 >
   <q-tr slot="header" slot-scope="props">
     <q-th auto-width>
