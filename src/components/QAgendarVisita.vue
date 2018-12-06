@@ -3,14 +3,19 @@
    <div style="width: 500px; max-width: 90vw;">
      Agendar Visita
      <q-input v-model="lead.nome" stack-label="Nome" />
-     <q-input v-model="lead.email" type="email" stack-label="Email" suffix="@gmail.com" />
+     <q-input v-model="lead.email" type="email" stack-label="Email" />
      <div class="divLateral">
        <q-input v-model="lead.telefone" class="campo1" type="number" stack-label="Telefone" />
        <q-input v-model="lead.celular" type="number"  stack-label="Celular" />
      </div>
      <div>
      <q-datetime class="campo1" v-model="lead.data" type="date" stack-label="Date" />
-     <q-datetime v-model="lead.hora" type="time" stack-label="Hora"/>
+     <q-select
+      stack-label="Horário"
+      type="number"
+      v-model="lead.hora"
+      :options="selectHoras"
+    />
      </div>
      <q-input v-model="lead.rua" stack-label="Rua" />
      <q-input v-model="lead.numero" type="number" stack-label="Número" />
@@ -35,6 +40,7 @@
 
 <script>
 import axios from 'axios'
+import { date } from 'quasar'
 // import moment from 'moment'
 export default {
   name: 'AgendarVisita',
@@ -46,7 +52,7 @@ export default {
         telefone: '',
         celular: '',
         data: '',
-        hora: '',
+        hora: null,
         rua: '',
         numero: '',
         cep: '',
@@ -54,6 +60,7 @@ export default {
         cidade: '',
         bairro: ''
       },
+      formattedString: date.formatDate(Date.now(), 'YYYY-MM-DD'),
       userAtual: null,
       selectOptions: [
         {
@@ -165,7 +172,68 @@ export default {
           value: 'to'
         }
       ],
-      results: null
+      selectHoras: [
+        {
+          label: '08:00',
+          value: '1'
+        },
+        {
+          label: '09:00',
+          value: '2'
+        },
+        {
+          label: '10:00',
+          value: '3'
+        },
+        {
+          label: '11:00',
+          value: '4'
+        },
+        {
+          label: '12:00',
+          value: '5'
+        },
+        {
+          label: '13:00',
+          value: '6'
+        },
+        {
+          label: '14:00',
+          value: '7'
+        },
+        {
+          label: '15:00',
+          value: '8'
+        },
+        {
+          label: '16:00',
+          value: '9'
+        },
+        {
+          label: '17:00',
+          value: '10'
+        },
+        {
+          label: '18:00',
+          value: '11'
+        },
+        {
+          label: '19:00',
+          value: '12'
+        },
+        {
+          label: '20:00',
+          value: '13'
+        },
+        {
+          label: '21:00',
+          value: 14
+        },
+        {
+          label: '22:00',
+          value: 15
+        }
+      ]
     }
   },
   mounted () {
@@ -180,15 +248,39 @@ export default {
         email: this.lead.email,
         telefone: this.lead.telefone,
         celular: this.lead.celular,
-        // data_criacao: moment(Date.now()).format(),
-        id_user_criador: this.userAtual
+        data_criacao: this.formattedString,
+        id_user_criador: this.userAtual,
+        id_user_editor: this.userAtual
+      }
+      let newAgenda = {
+        data: date.formatDate(this.lead.data, 'YYYY-MM-DD'),
+        // hora: date.formatDate(this.lead.hora, 'HH:mm'),
+        agentes: this.userAtual,
+        hora: this.lead.hora,
+        obs: this.lead.observacao,
+        status: 1
+      }
+      let newEndereco = {
+        logradouro: this.lead.rua,
+        numero: this.lead.numero,
+        bairro: this.lead.bairro,
+        cidade: this.lead.cidade,
+        cep: this.lead.cep,
+        uf: this.lead.estado,
+        schedule_address: ''
       }
       axios.post('http://165.227.188.44:5555/' + 'leads', newLead)
         .then(response => {
-          this.userSaved = true
-          this.sending = false
-          alert('Contato cadastado com sucesso')
-          this.clearForm()
+          newAgenda.id_lead = response.data.id
+          axios.post('http://165.227.188.44:5555/' + 'schedule', newAgenda)
+            .then(response => {
+              newEndereco.schedule_address = response.data.id
+              axios.post('http://165.227.188.44:5555/' + 'address', newEndereco)
+                .then(response => {
+                  alert('Agendamento cadastado com sucesso')
+                  window.location.reload()
+                })
+            })
         })
         .catch(error => {
           if (error.response.data.code === 'E_UNIQUE') {
