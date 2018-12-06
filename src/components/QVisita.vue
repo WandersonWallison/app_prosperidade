@@ -2,7 +2,7 @@
   <q-table
   :data="tableData"
   :columns="columns"
-  selection="multiple"
+  selection="single"
   :selected.sync="selected"
 >
   <q-tr slot="header" slot-scope="props">
@@ -53,7 +53,7 @@ export default {
     columns: [{
       name: 'desc',
       required: true,
-      label: 'Dessert (100g serving)',
+      label: 'Itens',
       align: 'left',
       field: 'name',
       sortable: true
@@ -62,8 +62,8 @@ export default {
     { name: 'data', label: 'Data', field: 'data', sortable: true },
     { name: 'hora', label: 'Hora', field: 'hora' },
     { name: 'tempo_ligacao', label: 'Tempo Ligação', field: 'tempo_logacao' },
-    { name: 'sodium', label: 'Sodium (mg)', field: '' },
-    { name: 'calcium', label: 'Calcium', field: 'calcium', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
+    { name: 'sodium', label: 'Logradouro', field: '' },
+    { name: 'calcium', label: 'Número', field: 'calcium', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
     { name: 'obs', label: 'Obs', field: 'obs', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) }
     ],
     loading: false,
@@ -76,9 +76,13 @@ export default {
     ]
   }),
   mounted () {
-    axios.get('http://165.227.188.44:5555/schedule').then(response => {
-      this.tableData = response.data
-    })
+    const userLogado = window.localStorage.getItem('Usuario')
+    const user = JSON.parse(userLogado)
+    this.id_usuario = user.id
+    axios.get('http://165.227.188.44:5555/schedule?where={"agentes":' + this.id_usuario + ',"status":1}')
+      .then(response => {
+        this.tableData = response.data
+      })
   }
 }
 </script>
