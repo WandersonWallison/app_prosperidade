@@ -17,7 +17,7 @@
       :options="selectHoras"
     />
      </div>
-     <q-input v-model="lead.rua" stack-label="Rua" />
+     <q-input v-model="lead.logradouro" stack-label="Rua" />
      <q-input v-model="lead.numero" type="number" stack-label="Número" />
      <div>
      <q-input class="campo1" v-model="lead.cep" stack-label="Cep" />
@@ -53,7 +53,7 @@ export default {
         celular: '',
         data: '',
         hora: null,
-        rua: '',
+        logradouro: '',
         numero: '',
         cep: '',
         estado: '',
