@@ -34,18 +34,18 @@
         <q-checkbox color="primary" v-model="props.expand" checked-icon="remove" unchecked-icon="add" class="q-mr-md" />
         {{ props.row.id }}
       </q-td>
-      <q-td key="id" :props="props">{{ props.row.id }}</q-td>
       <q-td key="data" :props="props">{{ props.row.data }}</q-td>
       <q-td key="hora" :props="props">{{ props.row.hora }}</q-td>
-      <q-td key="nome" :props="props">{{ props.row.tempo_ligacao }}</q-td>
-      <q-td key="bairro" :props="props">{{ props.row.endereco[0].bairro }}</q-td>
-      <q-td key="numero" :props="props">{{ props.row.endereco[0].numero }}</q-td>
-      <q-td key="logradouro" :props="props">{{ props.row.endereco[0].logradouro }}</q-td>
-      <q-td key="obs" :props="props">{{ props.row.obs }}</q-td>
+      <q-td key="nome" :props="props">{{ props.row.id_lead.nome }}</q-td>
     </q-tr>
     <q-tr v-show="props.expand" :props="props">
       <q-td colspan="100%">
-        <div class="text-left">Detalhes: {{ props.row.id }}.</div>
+        <div class="text-left">Endereço: {{ props.row.endereco[0].cep }},
+          {{ props.row.endereco[0].logradouro }},
+          {{ props.row.endereco[0].numero }},
+          {{ props.row.endereco[0].bairro }} -
+          {{ props.row.endereco[0].cidade }}-
+          {{ props.row.endereco[0].uf.toUpperCase() }}</div>
       </q-td>
     </q-tr>
   </template>
@@ -69,14 +69,9 @@ export default {
       field: 'name',
       sortable: true
     },
-    { name: 'id', label: 'Id', field: 'id', sortable: true },
     { name: 'data', label: 'Data', field: 'data', sortable: true },
-    { name: 'hora', label: 'Hora', field: 'hora' },
-    { name: 'nome', label: 'Nome', field: 'nome' },
-    { name: 'bairro', label: 'Bairro', field: 'bairro' },
-    { name: 'numero', label: 'Número', field: 'numero' },
-    { name: 'logradouro', label: 'Logradouro', field: 'logradouro', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
-    { name: 'obs', label: 'Obs', field: 'obs', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) }
+    { name: 'hora', label: 'Hora', field: 'hora', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
+    { name: 'nome', label: 'Nome', field: 'nome', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) }
     ],
     loading: false,
     dark: true,

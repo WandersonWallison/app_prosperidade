@@ -227,11 +227,11 @@ export default {
         },
         {
           label: '21:00',
-          value: 14
+          value: '14'
         },
         {
           label: '22:00',
-          value: 15
+          value: '15'
         }
       ]
     }
