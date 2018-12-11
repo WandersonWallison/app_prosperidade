@@ -1,4 +1,5 @@
 <template>
+<q-page>
   <q-table
   :data="tableData"
   :columns="columns"
@@ -44,13 +45,34 @@
     </q-tr>
   </template>
 </q-table>
+<div v-if="selected.length !== 0">
+  <div>
+    <h5> Análise da Visita</h5>
+    <q-toggle v-model="visible" label="Cliente Efetivado?" />
+      <div v-if="visible">
+      <q-agendado :leadProps="selected" />
+      </div>
+  <div v-else>
+      <q-rejeitado :leadProps="selected" />
+  </div>
+    </div>
+</div>
+</q-page>
 </template>
 
 <script>
+import QAgendado from '../components/QAgendado'
+import QRejeitado from '../components/QRejeitado'
 import axios from 'axios'
 export default {
+  components: {
+    QAgendado,
+    QRejeitado
+  },
   name: 'Visita',
   data: () => ({
+    visible: true,
+    props: ['selected'],
     tableData: [],
     columns: [{
       name: 'desc',
@@ -87,4 +109,9 @@ export default {
 </script>
 
 <style>
+.q-btn{
+      margin-top: 3%;
+      width: 100%;
+      height: 5px;
+  }
 </style>

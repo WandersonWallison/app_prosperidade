@@ -44,6 +44,12 @@ module.exports = function (ctx) {
       components: [
         'QAlert',
         'QCheckbox',
+        'QCard',
+        'QCardTitle',
+        'QCardMain',
+        'QCardMedia',
+        'QCardSeparator',
+        'QCardActions',
         'QDatetime',
         'QTabs',
         'QTable',
