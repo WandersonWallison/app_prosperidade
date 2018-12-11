@@ -36,6 +36,7 @@
       </q-td>
       <q-td key="data" :props="props">{{ props.row.data }}</q-td>
       <q-td key="hora" :props="props">{{ props.row.hora }}</q-td>
+      <q-td key="telefone" :props="props">{{ props.row.id_lead.telefone }}</q-td>
       <q-td key="nome" :props="props">{{ props.row.id_lead.nome }}</q-td>
     </q-tr>
     <q-tr v-show="props.expand" :props="props">
@@ -71,6 +72,7 @@ export default {
     },
     { name: 'data', label: 'Data', field: 'data', sortable: true },
     { name: 'hora', label: 'Hora', field: 'hora', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
+    { name: 'telefone', label: 'Telefone', field: 'telefone', sortable: true },
     { name: 'nome', label: 'Nome', field: 'nome', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) }
     ],
     loading: false,
