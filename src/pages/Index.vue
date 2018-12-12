@@ -5,9 +5,8 @@
     <img class="img" alt="Quasar logo" src="~assets/nova_logo_ProsperidadeInvestimentos.png">
     <q-input v-model="login.email" float-label="Email" />
     <q-input v-model="login.password" type="password" float-label="Password" />
-    <q-checkbox v-model="check2" color="secondary" label="Lembre-me" />
     <div class="actions2">
-    <q-btn class="q-btn" color="primary" @click="auth" label="Entrar"/>
+    <q-btn class="q-btn" color="primary" @click="noMessage" label="Entrar"/>
     <div class="input_white">{{menssage}}</div>
     </div>
 </div>
@@ -48,6 +47,8 @@
   }
   .input_white{
     color:black;
+    margin-top: 3%;
+    margin-left: 28%;
   }
 </style>
 
@@ -69,6 +70,16 @@ export default {
     }
   },
   methods: {
+    show (options) {
+      this.$q.loading.show(options)
+      setTimeout(() => {
+        this.$q.loading.hide()
+      }, 3000)
+    },
+    noMessage () {
+      this.show()
+      this.auth()
+    },
     auth () {
       this.menssage = null
       this.results = null

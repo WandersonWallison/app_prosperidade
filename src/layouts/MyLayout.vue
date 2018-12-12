@@ -33,10 +33,10 @@
         inset-delimiter
       >
         <q-list-header>Configurações</q-list-header>
-        <q-item @click.native="openURL('https://google.com.br')">
-          <q-item-side icon="close" />
-          <q-item-main label="Sair" />
+        <q-item>
+          <q-btn push color="secondary" @click="noMessage">Sair</q-btn>
         </q-item>
+
       </q-list>
     </q-layout-drawer>
     <q-page-container>
@@ -46,16 +46,37 @@
 </template>
 
 <script>
-import { openURL } from 'quasar'
+// import { openURL } from 'quasar'
+import axios from 'axios'
 export default {
   name: 'MyLayout',
   data () {
     return {
-      leftDrawerOpen: this.$q.platform.is.desktop
+      leftDrawerOpen: this.$q.platform.is.desktop,
+      loading7: false,
+      percentage1: 0
     }
   },
   methods: {
-    openURL
+    // openURL,
+    logout () {
+      window.localStorage.clear()
+      axios.get('http://165.227.188.44:5555/logout')
+        .then(response => {
+          this.results = response.data
+          this.$router.push('/')
+        })
+    },
+    show (options) {
+      this.$q.loading.show(options)
+      setTimeout(() => {
+        this.$q.loading.hide()
+      }, 3000)
+    },
+    noMessage () {
+      this.show()
+      this.logout()
+    }
   }
 }
 </script>

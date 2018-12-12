@@ -27,7 +27,7 @@ export default {
       }
       let newAgenda = {
         abertura: date.formatDate(this.agenda.data, 'YYYY-MM-DD'),
-        status: 4
+        status: 3
       }
       let newConta = {
         nome: 'Prosperidade',

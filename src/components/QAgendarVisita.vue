@@ -261,7 +261,7 @@ export default {
         status: 1
       }
       let newEndereco = {
-        logradouro: this.lead.rua,
+        logradouro: this.lead.logradouro,
         numero: this.lead.numero,
         bairro: this.lead.bairro,
         cidade: this.lead.cidade,

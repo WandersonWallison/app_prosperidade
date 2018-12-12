@@ -1,8 +1,8 @@
 <template>
      <q-tabs class="tabs" animated swipeable inverted color="faded" align="justify">
-        <q-tab default name="agenda" slot="title" icon="mail"/>
-        <q-tab name="alarms" slot="title" icon="alarm"  />
-        <q-tab name="movies" slot="title" icon="movie"  />
+        <q-tab default name="agenda" slot="title" icon="list_alt"/>
+        <q-tab name="alarms" slot="title" icon="schedule"  />
+        <q-tab name="movies" slot="title" icon="filter_list"  />
         <q-tab-pane name="agenda"><q-agendamento/></q-tab-pane>
         <q-tab-pane name="alarms"><q-agendar-visita/></q-tab-pane>
         <q-tab-pane name="movies"><q-visita/></q-tab-pane>

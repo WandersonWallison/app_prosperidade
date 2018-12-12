@@ -6,17 +6,24 @@
       v-model="agenda.motivo"
       :options="selectHoras"
     />
+    <q-datetime v-model="agenda.data" type="date" stack-label="Data"/>
+    <q-input class="area" v-model="agenda.obs_motivo" inverted color="grey-7" rows="4" float-label="Observação para não haver visita" type="textarea" />
+    <q-btn class="q-btn" @click="updateAgenda" color="primary" label="Salvar"/>
   </div>
 </template>
 
 <script>
+import axios from 'axios'
+import { date } from 'quasar'
 export default {
   name: 'Rejeitado',
   props: ['leadProps'],
   data () {
     return {
       agenda: {
-        motivo: null
+        motivo: '',
+        data: '',
+        obs_motivo: ''
       },
       selectHoras: [
         {
@@ -29,9 +36,31 @@ export default {
         }
       ]
     }
+  },
+  methods: {
+    updateAgenda () {
+      let newAgenda = {
+        fechamento: date.formatDate(this.agenda.data, 'YYYY-MM-DD'),
+        status: 4,
+        ativo: false,
+        obs_motivo: this.agenda.obs_motivo
+      }
+      axios.put('http://165.227.188.44:5555/' + 'schedule/' + this.leadProps[0].id, newAgenda)
+        .then(response => {
+          alert('Visita realizada!')
+          window.location.reload()
+        })
+        .catch(error => {
+          alert('erro de conexão, \nPor favor verificar as informações')
+          console.log(error.response.data)
+        })
+    }
   }
 }
 </script>
 
 <style>
+.area{
+  margin-top: 3%;
+}
 </style>
