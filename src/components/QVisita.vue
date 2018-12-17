@@ -28,7 +28,7 @@
         <q-checkbox color="primary" v-model="props.expand" checked-icon="remove" unchecked-icon="add" class="q-mr-md" />
         {{ props.row.name }}
       </q-td>
-      <q-td key="data" :props="props">{{ props.row.data }}</q-td>
+      <q-td key="data" :props="props">{{ props.row.data | maskData }}</q-td>
       <q-td key="hora" :props="props">{{ props.row.hora }}</q-td>
       <q-td key="telefone" :props="props">{{ props.row.id_lead.telefone }}</q-td>
       <q-td key="nome" :props="props">{{ props.row.id_lead.nome }}</q-td>
@@ -64,6 +64,7 @@
 import QAgendado from '../components/QAgendado'
 import QRejeitado from '../components/QRejeitado'
 import axios from 'axios'
+import { date } from 'quasar'
 export default {
   components: {
     QAgendado,
@@ -96,6 +97,12 @@ export default {
       // { name: 'Ice cream sandwich' }
     ]
   }),
+  filters: {
+    maskData: function (v) {
+      v = date.formatDate(v, 'DD/MM/YYYY')
+      return v
+    }
+  },
   mounted () {
     const userLogado = window.localStorage.getItem('Usuario')
     const user = JSON.parse(userLogado)

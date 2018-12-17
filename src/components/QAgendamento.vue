@@ -34,7 +34,7 @@
         <q-checkbox color="primary" v-model="props.expand" checked-icon="remove" unchecked-icon="add" class="q-mr-md" />
         {{ props.row.id }}
       </q-td>
-      <q-td key="data" :props="props">{{ props.row.data }}</q-td>
+      <q-td key="data" :props="props">{{ props.row.data | maskData }}</q-td>
       <q-td key="hora" :props="props">{{ props.row.hora }}</q-td>
       <q-td key="telefone" :props="props">{{ props.row.id_lead.telefone }}</q-td>
       <q-td key="nome" :props="props">{{ props.row.id_lead.nome }}</q-td>
@@ -55,6 +55,7 @@
 
 <script>
 import axios from 'axios'
+import { date } from 'quasar'
 export default {
   name: 'Agendamento',
   data: () => ({
@@ -80,6 +81,12 @@ export default {
     selection: 'multiple',
     selected: []
   }),
+  filters: {
+    maskData: function (v) {
+      v = date.formatDate(v, 'DD/MM/YYYY')
+      return v
+    }
+  },
   computed: {
     tableClass () {
       if (this.dark) {
