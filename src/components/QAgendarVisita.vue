@@ -5,8 +5,8 @@
      <q-input v-model="lead.nome" stack-label="Nome" />
      <q-input v-model="lead.email" type="email" stack-label="Email" />
      <div class="divLateral">
-       <q-input v-model="lead.telefone" class="campo1" type="number" stack-label="Telefone" />
-       <q-input v-model="lead.celular" type="number"  stack-label="Celular" />
+       <q-input v-model="lead.telefone" class="campo1" type="tel" stack-label="Telefone" v-mask = "'(##) ####-####'"/>
+       <q-input v-model="lead.celular" type="tel"  stack-label="Celular" v-mask = "'(##) #####-####'" />
      </div>
      <div>
      <q-datetime class="campo1" v-model="lead.data" type="date" stack-label="Date" />
@@ -17,10 +17,12 @@
       :options="selectHoras"
     />
      </div>
-     <q-input v-model="lead.logradouro" stack-label="Rua" />
-     <q-input v-model="lead.numero" type="number" stack-label="Número" />
      <div>
-     <q-input class="campo1" v-model="lead.cep" stack-label="Cep" />
+     <q-input class="campo1" v-model="lead.logradouro" stack-label="Rua" />
+     <q-input v-model="lead.numero" type="number" stack-label="Número" />
+     </div>
+     <div>
+     <q-input class="campo1" v-model="lead.cep" stack-label="Cep" v-mask = "'#####-###'"/>
      <q-select
       stack-label="Estado"
       v-model="lead.estado"
@@ -41,9 +43,12 @@
 <script>
 import axios from 'axios'
 import { date } from 'quasar'
+import {mask} from 'vue-the-mask'
+import { required, minLength } from 'vuelidate/lib/validators'
 // import moment from 'moment'
 export default {
   name: 'AgendarVisita',
+  directives: {mask},
   data () {
     return {
       lead: {
@@ -59,6 +64,14 @@ export default {
         estado: '',
         cidade: '',
         bairro: ''
+      },
+      validations: {
+        lead: {
+          nome: {
+            required,
+            minLength: minLength(4)
+          }
+        }
       },
       formattedString: date.formatDate(Date.now(), 'YYYY-MM-DD'),
       userAtual: null,
@@ -303,6 +316,7 @@ export default {
   }
   .campo1 {
    float:left;
+   margin-right: 5%;
   }
   .actions2 {
       margin: 0;
