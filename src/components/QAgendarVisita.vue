@@ -9,7 +9,7 @@
        <q-input v-model="lead.celular" type="tel"  stack-label="Celular" v-mask = "'(##) #####-####'" />
      </div>
      <div>
-     <q-datetime class="campo1" v-model="lead.data" type="date" stack-label="Date" />
+     <q-datetime class="campo1" v-model="lead.data" type="date" stack-label="Data" />
      <q-select
       stack-label="Horário"
       type="number"
@@ -34,7 +34,7 @@
      <q-input v-model="lead.bairro" stack-label="Bairro" />
     </div>
      <div class="actions2">
-        <q-btn class="q-btn" color="primary" @click="saveAgenda" label="Agendar"/>
+        <q-btn class="q-btn" color="primary" @click="saveAgenda" label="Agendar" v-bind:disabled="!isValid"/>
      </div>
    </div>
 </q-page>
@@ -44,13 +44,13 @@
 import axios from 'axios'
 import { date } from 'quasar'
 import {mask} from 'vue-the-mask'
-import { required, minLength } from 'vuelidate/lib/validators'
 // import moment from 'moment'
 export default {
   name: 'AgendarVisita',
   directives: {mask},
   data () {
     return {
+      errors: [],
       lead: {
         nome: '',
         email: '',
@@ -64,14 +64,6 @@ export default {
         estado: '',
         cidade: '',
         bairro: ''
-      },
-      validations: {
-        lead: {
-          nome: {
-            required,
-            minLength: minLength(4)
-          }
-        }
       },
       formattedString: date.formatDate(Date.now(), 'YYYY-MM-DD'),
       userAtual: null,
@@ -247,6 +239,22 @@ export default {
           value: '15'
         }
       ]
+    }
+  },
+  computed: {
+    isValid: function () {
+      return this.lead.nome !== '' &&
+      this.lead.email !== '' &&
+      this.lead.telefone !== '' &&
+      this.lead.celular !== '' &&
+      this.lead.data !== '' &&
+      this.lead.hora !== '' &&
+      this.lead.logradouro !== '' &&
+      this.lead.numero !== '' &&
+      this.lead.cep !== '' &&
+      this.lead.estado !== '' &&
+      this.lead.cidade !== '' &&
+      this.lead.bairro !== ''
     }
   },
   mounted () {
