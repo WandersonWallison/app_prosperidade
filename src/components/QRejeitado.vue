@@ -8,7 +8,7 @@
     />
     <q-datetime v-model="agenda.data" type="date" stack-label="Data"/>
     <q-input class="area" v-model="agenda.obs_motivo" inverted color="grey-7" rows="4" float-label="Observação para não haver visita" type="textarea" />
-    <q-btn class="q-btn" @click="updateAgenda" color="primary" label="Salvar"/>
+    <q-btn class="q-btn" @click="updateAgenda" color="primary" label="Salvar" v-bind:disabled="!isValid"/>
   </div>
 </template>
 
@@ -35,6 +35,13 @@ export default {
           value: '2'
         }
       ]
+    }
+  },
+  computed: {
+    isValid: function () {
+      return this.agenda.motivo !== '' &&
+      this.agenda.data !== '' &&
+      this.agenda.obs_motivo !== ''
     }
   },
   methods: {

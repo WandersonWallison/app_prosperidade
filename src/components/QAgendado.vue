@@ -2,7 +2,7 @@
   <div>
     <q-input v-model="agenda.valor" type="number" prefix="R$" stack-label="Valor de Abertura" />
       <q-datetime v-model="agenda.data" type="date" stack-label="Data"/>
-      <q-btn class="q-btn" @click="updateAgenda" color="primary" label="Salvar"/>
+      <q-btn class="q-btn" @click="updateAgenda" color="primary" label="Salvar" v-bind:disabled="!isValid"/>
   </div>
 </template>
 
@@ -18,6 +18,12 @@ export default {
         valor: null,
         data: ''
       }
+    }
+  },
+  computed: {
+    isValid: function () {
+      return this.agenda.data !== '' &&
+      this.agenda.valor !== null
     }
   },
   methods: {
