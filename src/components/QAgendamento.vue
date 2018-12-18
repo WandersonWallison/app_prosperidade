@@ -34,10 +34,11 @@
         <q-checkbox color="primary" v-model="props.expand" checked-icon="remove" unchecked-icon="add" class="q-mr-md" />
         {{ props.row.id }}
       </q-td>
+      <q-td key="nome" :props="props">{{ props.row.id_lead.nome }}</q-td>
       <q-td key="data" :props="props">{{ props.row.data | maskData }}</q-td>
       <q-td key="hora" :props="props">{{ props.row.hora | maskHora }}</q-td>
       <q-td key="telefone" :props="props">{{ props.row.id_lead.telefone }}</q-td>
-      <q-td key="nome" :props="props">{{ props.row.id_lead.nome }}</q-td>
+      <q-td key="celular" :props="props">{{ props.row.id_lead.celular }}</q-td>
     </q-tr>
     <q-tr v-show="props.expand" :props="props">
       <q-td colspan="100%">
@@ -71,10 +72,11 @@ export default {
       field: 'name',
       sortable: true
     },
+    { name: 'nome', label: 'Nome', field: 'nome', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
     { name: 'data', label: 'Data', field: 'data', sortable: true },
     { name: 'hora', label: 'Hora', field: 'hora', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
     { name: 'telefone', label: 'Telefone', field: 'telefone', sortable: true },
-    { name: 'nome', label: 'Nome', field: 'nome', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) }
+    { name: 'celular', label: 'Celular', field: 'celular', sortable: true }
     ],
     loading: false,
     dark: true,
