@@ -2,6 +2,50 @@
   <div>
     <q-input v-model="agenda.valor" type="number" prefix="R$" stack-label="Valor de Abertura" />
       <q-datetime v-model="agenda.data" type="date" stack-label="Data"/>
+        <!-- <h5> Upload de Imagens</h5>
+        <div class="campo1">
+        <q-btn color="primary" label="RG" @click="captureImage" />
+        <img :src="imageSrc">
+        </div>
+        <div class="campo1">
+        <q-btn color="primary" label="CPF" @click="captureImage1" />
+        <img :src="imageSrc1">
+        </div>
+        <div class="campo1">
+        <q-btn color="primary" label="Comprovante de Residência 1" @click="captureImage2" />
+        <img :src="imageSrc2">
+        </div>
+        <div class="campo1">
+        <q-btn color="primary" label="Comprovante de Residência 2" @click="captureImage3" />
+        <img :src="imageSrc3">
+        </div> -->
+        <h5>Bancos</h5>
+        <q-checkbox v-model="selection" val="Bradesco" label="Bradesco" />
+        <q-checkbox v-model="selection" val="Itaú" label="Itaú" />
+        <q-checkbox v-model="selection" val="Santander" label="Santander" />
+        <br><br>
+        <q-checkbox v-model="selection" val="Safra" label="Santander" />
+        <q-checkbox v-model="selection" val="Banco do Brasil" label="Banco do Brasil" />
+        <br><br>
+        <q-checkbox v-model="check" val="Outos" label="Outos" />
+        <div v-if="check">
+        <q-input v-model="outros" type="text" stack-label="Nome" />
+        </div>
+        <h5>Investimentos</h5>
+        <q-checkbox v-model="check1" label="Previdencia " />
+        <div v-if="check1">
+        <q-input v-model="conta.valor1" type="number" prefix="R$" stack-label="Valor de Abertura" />
+        </div>
+        <br><br>
+        <q-checkbox v-model="check2" label="COE" />
+        <div v-if="check2">
+        <q-input v-model="conta.valor2" type="number" prefix="R$" stack-label="Valor de Abertura" />
+        </div>
+        <br><br>
+        <q-checkbox v-model="check3" label="Renda Variável" />
+        <div v-if="check3">
+        <q-input v-model="conta.valor3" type="number" prefix="R$" stack-label="Valor de Abertura" />
+        </div>
       <q-btn class="q-btn" @click="updateAgenda" color="primary" label="Salvar" v-bind:disabled="!isValid"/>
   </div>
 </template>
@@ -17,7 +61,19 @@ export default {
       agenda: {
         valor: null,
         data: ''
-      }
+      },
+      conta: {
+        bancos: '',
+        valor1: '',
+        valor2: '',
+        valor3: ''
+      },
+      outros: '',
+      selection: [],
+      check: false,
+      check1: false,
+      check2: false,
+      check3: false
     }
   },
   computed: {
@@ -27,6 +83,43 @@ export default {
     }
   },
   methods: {
+    /*
+    captureImage () {
+      navigator.camera.getPicture(
+        data => { // on success
+          this.imageSrc = `data:image/jpeg;base64,${data}`
+        },
+        () => { // on fail
+          this.$q.notify('Could not access device camera.')
+        })
+    },
+    captureImage1 () {
+      navigator.camera.getPicture(
+        data => { // on success
+          this.imageSrc1 = `data:image/jpeg;base64,${data}`
+        },
+        () => { // on fail
+          this.$q.notify('Could not access device camera.')
+        })
+    },
+    captureImage2 () {
+      navigator.camera.getPicture(
+        data => { // on success
+          this.imageSrc2 = `data:image/jpeg;base64,${data}`
+        },
+        () => { // on fail
+          this.$q.notify('Could not access device camera.')
+        })
+    },
+    captureImage3 () {
+      navigator.camera.getPicture(
+        data => { // on success
+          this.imageSrc3 = `data:image/jpeg;base64,${data}`
+        },
+        () => { // on fail
+          this.$q.notify('Could not access device camera.')
+        })
+    }, */
     updateAgenda () {
       let newLead = {
         tipo: 'Cliente'
@@ -68,4 +161,8 @@ export default {
 </script>
 
 <style>
+.campo1 {
+   float:left;
+   margin-right: 5%;
+  }
 </style>
