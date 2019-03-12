@@ -24,12 +24,12 @@
         <q-checkbox v-model="selection" val="Itaú" label="Itaú" />
         <q-checkbox v-model="selection" val="Santander" label="Santander" />
         <br><br>
-        <q-checkbox v-model="selection" val="Safra" label="Santander" />
+        <q-checkbox v-model="selection" val="Safra" label="Safra" />
         <q-checkbox v-model="selection" val="Banco do Brasil" label="Banco do Brasil" />
         <br><br>
         <q-checkbox v-model="check" val="Outos" label="Outos" />
         <div v-if="check">
-        <q-input v-model="outros" type="text" stack-label="Nome" />
+        <q-input v-model="conta.outros" type="text" stack-label="Nome" />
         </div>
         <h5>Investimentos</h5>
         <q-checkbox v-model="check1" label="Previdencia " />
@@ -63,12 +63,11 @@ export default {
         data: ''
       },
       conta: {
-        bancos: '',
-        valor1: '',
-        valor2: '',
-        valor3: ''
+        outros: '',
+        valor1: null,
+        valor2: null,
+        valor3: null
       },
-      outros: '',
       selection: [],
       check: false,
       check1: false,
@@ -134,6 +133,10 @@ export default {
         n_conta: 1000,
         renda: 1000,
         aplicacao: this.agenda.valor,
+        nome_bancos: this.selection + ',' + this.conta.outros,
+        previdencia: this.conta.valor1,
+        coe: this.conta.valor2,
+        renda_variavel: this.conta.valor3,
         leads_bank: this.leadProps[0].id_lead.id
       }
       axios.put('http://165.227.188.44:5555/' + 'leads/' + this.leadProps[0].id_lead.id, newLead)
