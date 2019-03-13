@@ -11,7 +11,8 @@ const routes = [
     path: '/Home',
     component: () => import('layouts/MyLayout.vue'),
     children: [
-      { path: '', component: () => import('pages/Listas.vue') }
+      { path: '', component: () => import('pages/Listas.vue') },
+      { path: 'reagendamento', component: () => import('pages/Reagendamento.vue') }
     ]
   }
 ]

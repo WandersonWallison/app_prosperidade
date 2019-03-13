@@ -5,7 +5,11 @@
   :columns="columns"
   selection="single"
   :selected.sync="selected"
+  title="Selecione um agendamento"
 >
+      <template slot="top-selection" slot-scope="props">
+        <q-btn label="Editar" color="primary" icon="edit" @click="noMessage" />
+      </template>
   <q-tr slot="header" slot-scope="props">
     <q-th auto-width>
       <q-checkbox
@@ -163,6 +167,24 @@ export default {
       .then(response => {
         this.tableData = response.data
       })
+  },
+  methods: {
+    show (options) {
+      this.$q.loading.show(options)
+      setTimeout(() => {
+        this.$q.loading.hide()
+      }, 3000)
+    },
+    noMessage () {
+      this.show()
+      this.editar()
+    },
+    editar () {
+      window.localStorage.setItem('Agendamento', JSON.stringify(this.selected))
+      setTimeout(() => {
+        this.$router.push('/Home/reagendamento')
+      }, 3000)
+    }
   }
 }
 </script>
