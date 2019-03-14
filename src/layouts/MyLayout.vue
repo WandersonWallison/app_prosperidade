@@ -61,7 +61,7 @@ export default {
     // openURL,
     logout () {
       window.localStorage.clear()
-      axios.get('http://165.227.188.44:5555/logout')
+      axios.get('http://165.227.188.44:5555/' + 'logout')
         .then(response => {
           this.results = response.data
           this.$router.push('/')

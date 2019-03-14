@@ -280,7 +280,7 @@ export default {
         data: date.formatDate(this.lead.data, 'YYYY-MM-DD'),
         hora: this.lead.hora
       }
-      axios.put('http://165.227.188.44:5555/schedule/' + this.agendamentoEdit.id, newAgenda)
+      axios.put('http://165.227.188.44:5555/' + 'schedule/' + this.agendamentoEdit.id, newAgenda)
         .then((response) => {
           // this.results = response.data
           alert('Reagendamento realizado')
