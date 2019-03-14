@@ -20,16 +20,35 @@
         <img :src="imageSrc3">
         </div> -->
         <h5>Bancos</h5>
-        <q-checkbox v-model="selection" val="Bradesco" label="Bradesco" />
-        <q-checkbox v-model="selection" val="Itaú" label="Itaú" />
-        <q-checkbox v-model="selection" val="Santander" label="Santander" />
+        <q-checkbox v-model="check_b" val="Bradesco" label="Bradesco" />
+        <div v-if="check_b">
+        <q-input v-model="conta.valor_b" type="number" prefix="R$" stack-label="Valor de Abertura" />
+        </div>
         <br><br>
-        <q-checkbox v-model="selection" val="Safra" label="Safra" />
-        <q-checkbox v-model="selection" val="Banco do Brasil" label="Banco do Brasil" />
+        <q-checkbox v-model="check_i" val="Itaú" label="Itaú" />
+        <div v-if="check_i">
+        <q-input v-model="conta.valor_i" type="number" prefix="R$" stack-label="Valor de Abertura" />
+        </div>
+        <br><br>
+        <q-checkbox v-model="check_st" val="Santander" label="Santander" />
+        <div v-if="check_st">
+        <q-input v-model="conta.valor_st" type="number" prefix="R$" stack-label="Valor de Abertura" />
+        </div>
+        <br><br>
+        <q-checkbox v-model="check_sf" val="Safra" label="Safra" />
+        <div v-if="check_sf">
+        <q-input v-model="conta.valor_sf" type="number" prefix="R$" stack-label="Valor de Abertura" />
+        </div>
+        <br><br>
+        <q-checkbox v-model="check_bb" val="Banco do Brasil" label="Banco do Brasil" />
+        <div v-if="check_bb">
+        <q-input v-model="conta.valor_bb" type="number" prefix="R$" stack-label="Valor de Abertura" />
+        </div>
         <br><br>
         <q-checkbox v-model="check" val="Outos" label="Outos" />
         <div v-if="check">
-        <q-input v-model="conta.outros" type="text" stack-label="Nome" />
+        <q-input v-model="conta.nome_outros" type="text" stack-label="Nome" />
+        <q-input v-model="conta.valor_o" type="number" prefix="R$" stack-label="Valor de Abertura" />
         </div>
         <h5>Investimentos</h5>
         <q-checkbox v-model="check1" label="Previdencia " />
@@ -63,12 +82,23 @@ export default {
         data: ''
       },
       conta: {
-        outros: '',
-        valor1: 0,
-        valor2: 0,
-        valor3: 0
+        nome_outros: null,
+        valor1: null,
+        valor2: null,
+        valor3: null,
+        valor_b: null,
+        valor_i: null,
+        valor_st: null,
+        check_sf: null,
+        valor_bb: null,
+        valor_o: null
       },
-      selection: [],
+      // selection: [],
+      check_b: false,
+      check_i: false,
+      check_sf: false,
+      check_st: false,
+      check_bb: false,
       check: false,
       check1: false,
       check2: false,
@@ -133,7 +163,13 @@ export default {
         n_conta: 1000,
         renda: 1000,
         aplicacao: this.agenda.valor,
-        nome_bancos: this.selection + ',' + this.conta.outros,
+        nome_outros: this.conta.nome_outros,
+        valor_b: this.valor_b,
+        valor_i: this.valor_i,
+        valor_st: this.valor_st,
+        valor_sf: this.valor_sf,
+        valor_bb: this.valor_bb,
+        valor_o: this.valor_o,
         previdencia: this.conta.valor1,
         coe: this.conta.valor2,
         renda_variavel: this.conta.valor3,
