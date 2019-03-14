@@ -64,9 +64,9 @@ export default {
       },
       conta: {
         outros: '',
-        valor1: null,
-        valor2: null,
-        valor3: null
+        valor1: 0,
+        valor2: 0,
+        valor3: 0
       },
       selection: [],
       check: false,
