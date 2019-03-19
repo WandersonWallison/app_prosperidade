@@ -101,7 +101,7 @@ export default {
         ativo: false,
         obs_motivo: this.agenda.obs_motivo
       }
-      axios.put('http://165.227.188.44:5555/' + 'schedule/' + this.leadProps[0].id, newAgenda)
+      axios.put('http://104.248.7.221:5555/' + 'schedule/' + this.leadProps[0].id, newAgenda)
         .then(response => {
           alert('Visita realizada!')
           window.location.reload()

@@ -86,7 +86,7 @@ export default {
       if (this.login.email !== '' && this.login.password !== '') {
         // this.loading = true
         axios
-          .post('http://165.227.188.44:5555/login', this.login)
+          .post('http://104.248.7.221:5555/login', this.login)
           .then(response => {
             if (response.data.user === false) {
               this.$router.push('/')

@@ -290,13 +290,13 @@ export default {
         uf: this.lead.estado,
         schedule_address: ''
       }
-      axios.post('http://165.227.188.44:5555/' + 'leads', newLead)
+      axios.post('http://104.248.7.221:5555/' + 'leads', newLead)
         .then(response => {
           newAgenda.id_lead = response.data.id
-          axios.post('http://165.227.188.44:5555/' + 'schedule', newAgenda)
+          axios.post('http://104.248.7.221:5555/' + 'schedule', newAgenda)
             .then(response => {
               newEndereco.schedule_address = response.data.id
-              axios.post('http://165.227.188.44:5555/' + 'address', newEndereco)
+              axios.post('http://104.248.7.221:5555/' + 'address', newEndereco)
                 .then(response => {
                   alert('Agendamento cadastado com sucesso')
                   window.location.reload()
