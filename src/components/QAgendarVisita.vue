@@ -33,6 +33,10 @@
      <q-input class="campo1" v-model="lead.cidade" stack-label="Cidade" />
      <q-input v-model="lead.bairro" stack-label="Bairro" />
     </div>
+    <div>
+      <br>
+      <q-input class="area" stack-label="Observação" v-model="lead.obs" inverted color="grey-7" rows="4" type="textarea" />
+      </div>
      <div class="actions2">
         <q-btn class="q-btn" color="primary" @click="saveAgenda" label="Agendar" v-bind:disabled="!isValid"/>
      </div>
@@ -63,7 +67,8 @@ export default {
         cep: '',
         estado: '',
         cidade: '',
-        bairro: ''
+        bairro: '',
+        obs: ''
       },
       formattedString: date.formatDate(Date.now(), 'YYYY-MM-DD'),
       userAtual: null,
@@ -278,7 +283,7 @@ export default {
         // hora: date.formatDate(this.lead.hora, 'HH:mm'),
         agentes: this.userAtual,
         hora: this.lead.hora,
-        obs: this.lead.observacao,
+        obs: this.lead.obs,
         status: 1
       }
       let newEndereco = {
