@@ -86,7 +86,7 @@ export default {
       if (this.login.email !== '' && this.login.password !== '') {
         // this.loading = true
         axios
-          .post('http://104.248.7.221:5555/login', this.login)
+          .post(process.env.VUE_APP_ROOT_API + '/login', this.login)
           .then(response => {
             if (response.data.user === false) {
               this.$router.push('/')

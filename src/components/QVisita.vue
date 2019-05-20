@@ -164,7 +164,7 @@ export default {
     const userLogado = window.localStorage.getItem('Usuario')
     const user = JSON.parse(userLogado)
     this.id_usuario = user.id
-    axios.get('http://104.248.7.221:5555/' + 'schedule?where={"agentes":' + this.id_usuario + ',"status":1}')
+    axios.get(process.env.VUE_APP_ROOT_API + '/schedule?where={"agentes":' + this.id_usuario + ',"status":1}')
       .then(response => {
         this.tableData = response.data
       })

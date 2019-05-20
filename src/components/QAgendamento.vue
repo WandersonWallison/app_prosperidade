@@ -151,7 +151,7 @@ export default {
     const userLogado = window.localStorage.getItem('Usuario')
     const user = JSON.parse(userLogado)
     this.id_usuario = user.id
-    axios.get('http://104.248.7.221:5555/' + 'schedule?where={"agentes":' + this.id_usuario + ',"status":0}')
+    axios.get(process.env.VUE_APP_ROOT_API + '/schedule?where={"agentes":' + this.id_usuario + ',"status":0}')
       .then(response => {
         this.tableData = response.data
       })
@@ -161,7 +161,7 @@ export default {
       let newAgenda = {
         status: 1
       }
-      axios.put('http://104.248.7.221:5555/' + 'schedule/' + this.selected[0].id, newAgenda)
+      axios.put(process.env.VUE_APP_ROOT_API + '/schedule/' + this.selected[0].id, newAgenda)
         .then((response) => {
           this.results = response.data
           alert('confirmou agendamento!')
@@ -176,7 +176,7 @@ export default {
       let newLead = {
         momento_atual: id
       }
-      axios.put('http://104.248.7.221:5555/' + 'leads/' + this.results.id_lead.id, newLead)
+      axios.put(process.env.VUE_APP_ROOT_API + '/leads/' + this.results.id_lead.id, newLead)
         .then((response) => {
           window.location.reload()
         })
@@ -188,7 +188,7 @@ export default {
       let newAgenda = {
         status: 2
       }
-      axios.put('http://104.248.7.221:5555/' + 'schedule/' + this.selected[0].id, newAgenda)
+      axios.put(process.env.VUE_APP_ROOT_API + '/schedule/' + this.selected[0].id, newAgenda)
         .then((response) => {
           this.results = response.data
           alert('Não confirmou agendamento!')

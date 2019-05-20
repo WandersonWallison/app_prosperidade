@@ -175,13 +175,13 @@ export default {
         renda_variavel: this.conta.valor3,
         leads_bank: this.leadProps[0].id_lead.id
       }
-      axios.put('http://104.248.7.221:5555/' + 'leads/' + this.leadProps[0].id_lead.id, newLead)
+      axios.put(process.env.VUE_APP_ROOT_API + '/leads/' + this.leadProps[0].id_lead.id, newLead)
         .then(response => {
           // newAgenda.id_lead = response.data.id
-          axios.put('http://104.248.7.221:5555/' + 'schedule/' + this.leadProps[0].id, newAgenda)
+          axios.put(process.env.VUE_APP_ROOT_API + '/schedule/' + this.leadProps[0].id, newAgenda)
             .then(response => {
               // newEndereco.schedule_address = response.data.id
-              axios.post('http://104.248.7.221:5555/' + 'bank', newConta)
+              axios.post(process.env.VUE_APP_ROOT_API + '/bank', newConta)
                 .then(response => {
                   alert('Visita realizada!')
                   window.location.reload()
