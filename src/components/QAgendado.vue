@@ -65,6 +65,16 @@
         <div v-if="check3">
         <q-input v-model="conta.valor3" type="number" prefix="R$" stack-label="Valor de Abertura" />
         </div>
+        <br><br>
+        <q-checkbox v-model="check4" label="Renda Fixa" />
+        <div v-if="check4">
+        <q-input v-model="conta.valor4" type="number" prefix="R$" stack-label="Valor de Abertura" />
+        </div>
+        <br><br>
+        <q-checkbox v-model="check5" label="Fundos" />
+        <div v-if="check5">
+        <q-input v-model="conta.valor5" type="number" prefix="R$" stack-label="Valor de Abertura" />
+        </div>
       <q-btn class="q-btn" @click="updateAgenda" color="primary" label="Salvar" v-bind:disabled="!isValid"/>
   </div>
 </template>
@@ -86,6 +96,8 @@ export default {
         valor1: null,
         valor2: null,
         valor3: null,
+        valor4: null,
+        valor5: null,
         valor_b: null,
         valor_i: null,
         valor_st: null,
@@ -102,7 +114,9 @@ export default {
       check: false,
       check1: false,
       check2: false,
-      check3: false
+      check3: false,
+      check4: false,
+      check5: false
     }
   },
   computed: {
@@ -173,6 +187,8 @@ export default {
         previdencia: this.conta.valor1,
         coe: this.conta.valor2,
         renda_variavel: this.conta.valor3,
+        renda_fixa: this.conta.valor4,
+        fundos: this.conta.valor5,
         leads_bank: this.leadProps[0].id_lead.id
       }
       axios.put(process.env.VUE_APP_ROOT_API + '/leads/' + this.leadProps[0].id_lead.id, newLead)

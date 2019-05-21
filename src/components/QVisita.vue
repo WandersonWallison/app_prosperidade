@@ -8,7 +8,7 @@
   title="Selecione um agendamento"
 >
       <template slot="top-selection" slot-scope="props">
-        <q-btn label="Editar" color="primary" icon="edit" @click="noMessage" />
+        <q-btn label="Re-agendar" color="primary" icon="edit" @click="noMessage" />
       </template>
   <q-tr slot="header" slot-scope="props">
     <q-th auto-width>

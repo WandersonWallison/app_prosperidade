@@ -24,7 +24,7 @@ module.exports = function (ctx) {
           VUE_APP_ROOT_API: JSON.stringify('http://138.197.110.228:5555')
         }
         : { // and on build (production):
-          VUE_APP_ROOT_API: JSON.stringify('http://138.197.110.228:5555')
+          VUE_APP_ROOT_API: JSON.stringify('http://104.248.7.221:5555')
         },
       scopeHoisting: true,
       // vueRouterMode: 'history',
