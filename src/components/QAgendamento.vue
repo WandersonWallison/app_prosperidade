@@ -48,7 +48,7 @@
           {{ props.row.endereco[0].bairro }} -
           {{ props.row.endereco[0].cidade }}-
           {{ props.row.endereco[0].uf.toUpperCase() }}</div>
-          <div class="text-left">Observeção: {{ props.row.obs }}</div>
+          <div class="text-left">Observação: {{ props.row.obs + ' - ' + props.row.id_lead.obs }}</div>
       </q-td>
     </q-tr>
   </template>
